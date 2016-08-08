@@ -1,0 +1,34 @@
+---
+  - apt: name=sudo state=latest update_cache=yes cache_valid_time=6000
+  - copy: src=/etc/ansible/roles/users/pam-ssh-agent-auth_0.10.2-1_amd64.deb dest=/tmp/pam-ssh-agent-auth_0.10.2-1_amd64.deb
+  - apt: deb=/tmp/pam-ssh-agent-auth_0.10.2-1_amd64.deb
+  - lineinfile: dest=/etc/sudoers line='Defaults env_keep += "SSH_AUTH_SOCK"'
+  - template: src=sudo.pam.j2 dest=/etc/pam.d/sudo mode=0644 owner=root group=root
+  - debug: msg="{{permited_users}}"
+  - group: name="{{item.username}}"
+    with_items: usersinfo
+    when: "item.username in permited_users"
+  - user: name="{{item.username}}"
+          group="{{item.username}}"
+          groups="{{ item.groups | join(',') if item.groups else 'nogroup'}}"
+          password="{{item.password if item.password is defined else '!'}}"
+          comment="{{item.name}}"
+          createhome="yes"
+          shell="/bin/bash"
+    with_items: usersinfo
+    when: "item.username in permited_users"
+  - authorized_key: user="{{item.username}}" key="{{item.key}}" exclusive=yes
+    with_items: usersinfo
+    when: "item.username in permited_users"
+  - template: src=clean.j2 dest=/etc/security/authorized_keys owner=root mode=600
+  - lineinfile: dest=/etc/security/authorized_keys line="{{item.key}}"
+    with_items: usersinfo
+    when:  (item.nopasssudo and item.username in permited_users)
+  - lineinfile: dest=/etc/security/authorized_keys line="{{item.key}}" state=absent
+    with_items: usersinfo
+    when: (not item.nopasssudo and item.username in permited_users)
+  - user: name="{{item}}" state=absent
+    with_items: fired_users
+  - user: name='root' password="{{root.password}}"
+  - template: src="{{ root.keys_file}}" dest='/root/.ssh/authorized_keys' backup=yes
+    ignore_errors: yes

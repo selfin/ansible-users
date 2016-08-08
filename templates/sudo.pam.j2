@@ -1,0 +1,4 @@
+auth       sufficient /usr/local/libexec/pam_ssh_agent_auth.so file=/etc/security/authorized_keys
+@include common-auth
+@include common-account
+@include common-session-noninteractive
