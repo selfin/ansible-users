@@ -1,0 +1,12 @@
+usersinfo:
+  - username: selfin
+    name: Alexey Samoilik
+    password: $6$6fnv2FBwhNM$aGjoyEEFkIG5UY3RVoSZgZsggwjUiZ6r0cXzTC1B.LpKAgaFs7yjDkK8dA6IoGaa8vEeort/3QM5AQIEm/9ut0
+    groups:
+      - sudo
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCX5lvh6ea+/NRaKPeJ1UxE3GLzn07YLDgvEvVGK8s2bdznsJOghIUq4aq25weLc6KP4CPN7hNZpQt9A0ig+FTehCvlzPwekk+hBfXKQZipU4bzDgPRHxziVMv9toZhzRpPJKwlTsrCXxnyaBe+gK58fG+q6TPrkhZ+aAEUYo3KhfuRuYdwGT9D3c80R8Ggc5dgLFeCcMFgR+Kjh7m/VCX3e0qWqL9ubi2ZF/qr1YyStEu463JiWGqoOH8jEyUiuLpNQtbEfBsQeDwuNCpXkrqlozeluhaJQ36aLSYzv8f/SNbEeezqfzZ9Uc2UXxyBI2nW80vqsQiG6R7LO8O9LiFx selfin
+    nopasssudo: yes
+
+root:
+  password: $6$j.3mOZjVGRco1z$CpBlwmieKWzVHfliVPKPUoXrt1bBhIeGW5L0iAQzMlpu54khQhLFQfSSTXifbvvhcf0zfxA0Wp5YVCsVVmPS/1
+  keys_file: ssh.default
